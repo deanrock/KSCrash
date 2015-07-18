@@ -8,7 +8,6 @@
 #import <KSCrash/KSCrash.h> // TODO: Remove this
 #import <KSCrash/KSCrashInstallationStandard.h>
 #import <KSCrash/KSCrashInstallationQuincyHockey.h>
-#import <KSCrash/KSCrashInstallationEmail.h>
 #import <KSCrash/KSCrashInstallationVictory.h>
 
 
@@ -37,9 +36,9 @@ didFinishLaunchingWithOptions:(__unused NSDictionary *) launchOptions
 {
     // Create an installation (choose one)
 //    KSCrashInstallation* installation = [self makeStandardInstallation];
-    KSCrashInstallation* installation = [self makeEmailInstallation];
+ //   KSCrashInstallation* installation = [self makeEmailInstallation];
 //    KSCrashInstallation* installation = [self makeHockeyInstallation];
-//    KSCrashInstallation* installation = [self makeQuincyInstallation];
+    KSCrashInstallation* installation = [self makeQuincyInstallation];
 //    KSCrashInstallation *installation = [self makeVictoryInstallation];
     
     
@@ -65,27 +64,6 @@ didFinishLaunchingWithOptions:(__unused NSDictionary *) launchOptions
      }];
 }
 
-- (KSCrashInstallation*) makeEmailInstallation
-{
-    NSString* emailAddress = @"your@email.here";
-    
-    KSCrashInstallationEmail* email = [KSCrashInstallationEmail sharedInstance];
-    email.recipients = @[emailAddress];
-    email.subject = @"Crash Report";
-    email.message = @"This is a crash report";
-    email.filenameFmt = @"crash-report-%d.txt.gz";
-    
-    [email addConditionalAlertWithTitle:@"Crash Detected"
-                                message:@"The app crashed last time it was launched. Send a crash report?"
-                              yesAnswer:@"Sure!"
-                               noAnswer:@"No thanks"];
-    
-    // Uncomment to send Apple style reports instead of JSON.
-    [email setReportStyle:KSCrashEmailReportStyleApple useDefaultFilenameFormat:YES];
-
-    return email;
-}
-
 - (KSCrashInstallation*) makeHockeyInstallation
 {
     NSString* hockeyAppIdentifier = @"PUT_YOUR_HOCKEY_APP_ID_HERE";
@@ -101,14 +79,13 @@ didFinishLaunchingWithOptions:(__unused NSDictionary *) launchOptions
 
 - (KSCrashInstallation*) makeQuincyInstallation
 {
-//    NSURL* quincyURL = [NSURL URLWithString:@"http://localhost:8888/quincy/crash_v200.php"];
-    NSURL* quincyURL = [NSURL URLWithString:@"http://put.your.quincy.url.here"];
+    NSURL* quincyURL = [NSURL URLWithString:@"http://localhost:8888/quincy/crash_v200.php"];
     
     KSCrashInstallationQuincy* quincy = [KSCrashInstallationQuincy sharedInstance];
     quincy.url = quincyURL;
-    quincy.userID = @"ABC123";
-    quincy.contactEmail = @"nobody@nowhere.com";
-    quincy.crashDescription = @"Something broke!";
+    //quincy.userID = @"ABC123";
+    //quincy.contactEmail = @"nobody@nowhere.com";
+    //quincy.crashDescription = @"Something broke!";
     
     return quincy;
 }
